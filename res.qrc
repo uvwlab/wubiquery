@@ -1,0 +1,10 @@
+<RCC>
+	<qresource prefix="/">
+		<file>res/wubizg.png</file>
+		<file>res/1.png</file>
+		<file>res/2.png</file>
+		<file>res/3.png</file>
+		<file>res/4.png</file>
+		<file>res/nofind.png</file>
+	</qresource>
+</RCC>
