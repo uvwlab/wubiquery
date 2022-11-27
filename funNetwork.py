@@ -3,6 +3,8 @@ import http.client
 import urllib
 import urllib.parse
 import re
+import httpx
+import ptvsd
 
 def getHanziZigen( strHanzi ):
     if type(strHanzi) != type(""):        
@@ -10,13 +12,17 @@ def getHanziZigen( strHanzi ):
     if ord(strHanzi) < 0x4e00 or ord(strHanzi) > 0x9FA5:
         return None
     try:
-        params = urllib.parse.urlencode({'hzname' : strHanzi.encode('gbk')})
+        params = urllib.parse.urlencode({'hzname' : strHanzi.encode('utf-8')})
         headers = {'content-type':'application/x-www-form-urlencoded','accept':'text/html', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36'}
-        httpClient = http.client.HTTPSConnection('52wubi.com', 443)
-        httpClient.request("POST", '/wbbmcx/search.php', params, headers)
-        response = httpClient.getresponse()
-        if response.status == 200:
-            resHtml = response.read().decode('gbk')
+        #httpClient = http.client.HTTPSConnection('52wubi.com', 443)
+        httpClient = httpx.Client(http2=True)        
+        #httpClient.request("POST", '/wbbmcx/search.php', params, headers)
+        r = httpClient.post('https://www.52wubi.com/wbbmcx/search.php', params = params, headers=headers)
+        print(type(r))
+        #response = httpClient.getresponse()
+        if r.status_code == 200:#response.status == 200:            
+            #resHtml = response.read().decode('gbk')
+            resHtml = r.text
             pttnHanzi = r'<td><a href="\w+.html" title="[\u4e00-\u9fa5]+">([\u4e00-\u9fa5])+</a></td>'
             pttnZigen = r'<td class="wbbm">(\w+)</td>'
             pttnZigenImgUrl = r'<td><img src="(\w+/[\u4e00-\u9fa5].gif)" alt="[\u4e00-\u9fa5]+"'

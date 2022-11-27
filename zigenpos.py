@@ -10,4 +10,4 @@ class CZigenPos():
         posxy = self.letterPos[letter]
         x = (760 / 10 ) * posxy[0]  + offset *  (760 / 10 / 4)
         y = (272 / 3) * posxy[1] +  (272 / 3) - 15
-        return {'x': int(x), 'y': int(y)}
+        return {'x': x, 'y': y}

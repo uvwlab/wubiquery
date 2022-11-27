@@ -1,5 +1,6 @@
 from PyQt5.QtCore import QThread
 import funNetwork
+import ptvsd
 
 class CParseThread(QThread):
     def __init__(self):
@@ -14,6 +15,7 @@ class CParseThread(QThread):
         return self.hanzi
        
     def run(self):
+        ptvsd.debug_this_thread()
         strZiGen = funNetwork.getHanziZigen(self.hanzi)
         if strZiGen != None:
             self.resultZigen = [True, strZiGen]
