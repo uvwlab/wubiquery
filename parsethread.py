@@ -16,15 +16,18 @@ class CParseThread(QThread):
        
     def run(self):
         #ptvsd.debug_this_thread()
-        strZiGen = funNetwork.getHanziZigen(self.hanzi)
-        if strZiGen != None:
-            self.resultZigen = [True, strZiGen]
+        strZiGenAndImg = funNetwork.getHanziZigen(self.hanzi)
+        if strZiGenAndImg[0] != None:
+            self.resultZigen = [True, strZiGenAndImg[0]]
         else:
             self.resultZigen = [False, ""] 
-
-        bytesBuff = funNetwork.getZigenGif('/wbbmcx/tp/{0}.gif'.format(self.hanzi))
-        if bytesBuff != None:
-            self.resultZigenGif = [True, bytesBuff]
+        
+        if strZiGenAndImg[1] != None:            
+            bytesBuff = funNetwork.getZigenGif(strZiGenAndImg[1] )
+            if bytesBuff != None:
+                self.resultZigenGif = [True, bytesBuff]
+            else:
+                self.resultZigenGif = [False, b'']
         else:
             self.resultZigenGif = [False, b'']
             
