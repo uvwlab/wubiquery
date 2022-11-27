@@ -15,7 +15,7 @@ class CParseThread(QThread):
         return self.hanzi
        
     def run(self):
-        ptvsd.debug_this_thread()
+        #ptvsd.debug_this_thread()
         strZiGen = funNetwork.getHanziZigen(self.hanzi)
         if strZiGen != None:
             self.resultZigen = [True, strZiGen]
